@@ -7,6 +7,9 @@ world = clone.object:clone()
 function world:describe()
 	print('You are at the '..self.name..'.')
 end
+world.flee = function(fields)
+	player.location = home
+end
 
 -- your home
 home = world:clone()
