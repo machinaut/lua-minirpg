@@ -2,6 +2,7 @@ require "clone"
 require 'monsters'
 require 'weapons'
 require 'world'
+require 'player'
 
 local commands = {
 	attack = function(weapon, monster)
@@ -12,12 +13,6 @@ local commands = {
 		end,
 	move = function(location)
 			print("Moving to " .. location)
-		end,
-	buy = function(thing)
-			print("Buying " .. thing)
-		end,
-	sell = function(thing)
-			print("Selling " .. thing)
 		end,
 	drop = function(thing)
 			print("Dropping " .. thing)
@@ -31,8 +26,15 @@ local commands = {
 }
 
 repeat
-	line = io.read("*line") 
+	str = io.read("*line") 
+	-- get args from line
+	local fields
+	line:gsub("(%w+)",(function(w)table.insert(fields,w) end))
+	-- general commands (any location)
 	if commands[line] ~= nil then
 		commands[line]()
+	-- location-specific commands
+	elseif player.location[line] ~= nil then
+		player.location[line]()
 	end
 until line == "exit"

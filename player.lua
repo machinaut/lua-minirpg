@@ -9,4 +9,4 @@ inventory = {}
 money = 1000
 
 -- where you're at
-location = world['home']
+location = world['shop']
