@@ -1,6 +1,7 @@
 module(..., package.seeall);
 require 'clone'
 require 'world'
+require 'weapons'
 
 -- the player's bag of stuff
 inventory = {}

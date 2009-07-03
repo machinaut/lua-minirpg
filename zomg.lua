@@ -1,7 +1,3 @@
-require "clone"
-require 'monsters'
-require 'weapons'
-require 'world'
 require 'player'
 
 local commands = {
@@ -11,30 +7,51 @@ local commands = {
 	flee = function()
 			 print("Run away!!!")
 		end,
-	move = function(location)
-			print("Moving to " .. location)
-		end,
+	move = function(fields)
+		if #fields ~= 2 then
+			print('Usage: move location')
+		elseif world[fields[2]] == nil then
+			print('Error: '..fields[2]..' not a valid location')
+		elseif player.location == world[fields[2]] then
+			print("Error: You're already at "..fields[2]..".")
+		else
+			print("Moving to "..fields[2].."...")
+			player.location = world[fields[2]]
+		end
+	end,
 	drop = function(thing)
 			print("Dropping " .. thing)
 		end,
 	equip = function(thing)
 			print("Equipping" .. thing)
 		end,
-	help = function(thing)
-			print("Help with " .. thing)
+	whereami = function()
+			print('I am at the '..player.location.name..'.')
+		end,
+	help = function(fields)
+			print("Help with what?")
 		end
 }
 
 repeat
-	str = io.read("*line") 
+	-- print the player a sort of prompt
+	player.location:describe()
+	-- get player input
+	line = io.read("*line") 
 	-- get args from line
-	local fields
+	fields = {}
 	line:gsub("(%w+)",(function(w)table.insert(fields,w) end))
+	-- check for exit condition first
+	if fields[1] == 'exit' then
+		break
 	-- general commands (any location)
-	if commands[line] ~= nil then
-		commands[line]()
+	elseif commands[fields[1]] ~= nil then
+		commands[fields[1]](fields)
 	-- location-specific commands
-	elseif player.location[line] ~= nil then
-		player.location[line]()
+	elseif player.location[fields[1]] ~= nil then
+		player.location[fields[1]](fields)
+	-- bad command
+	else
+		print('Error: not a valid command.')
 	end
-until line == "exit"
+until false
