@@ -22,10 +22,11 @@ end
 shop.buy = function(fields)
 	if #fields ~= 2 or fields[2] == 'help' then
 		print('Usage: buy itemname')
+		return
 	end
 	local itemname = fields[2]
 	if weapons[itemname] == nil then
-		print('Error: ' .. itemname .. 'not a valid weapon name.')
+		print('Error: ' .. itemname .. ' not a valid weapon name.')
 		return
 	end
 	local item = weapons[itemname]
@@ -45,10 +46,11 @@ end
 shop.sell = function(fields)
 	if #fields ~= 2 or fields[2] == 'help' then
 		print('Usage: sell itemname')
+		return
 	end
 	local itemname = fields[2]
 	if weapons[itemname] == nil then
-		print('Error: ' .. itemname .. 'not a valid weapon name.')
+		print('Error: ' .. itemname .. ' not a valid weapon name.')
 		return
 	end
 	local item = weapons[itemname]

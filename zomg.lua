@@ -42,7 +42,7 @@ repeat
 		break
 	end
 	-- get args from line
-	fields = {}
+	local fields = {}
 	line:gsub("(%w+)",(function(w)table.insert(fields,w) end))
 	-- check for exit condition first
 	if fields[1] == 'exit' then
