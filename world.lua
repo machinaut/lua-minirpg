@@ -20,7 +20,7 @@ shop.describe = function()
 	print('You have '..player.money..' monies.')
 end
 shop.buy = function(fields)
-	if #fields ~= 2 then
+	if #fields ~= 2 or fields[2] == 'help' then
 		print('Usage: buy itemname')
 	end
 	local itemname = fields[2]
@@ -43,7 +43,7 @@ shop.buy = function(fields)
 	end
 end
 shop.sell = function(fields)
-	if #fields ~= 2 then
+	if #fields ~= 2 or fields[2] == 'help' then
 		print('Usage: sell itemname')
 	end
 	local itemname = fields[2]

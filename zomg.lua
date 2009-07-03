@@ -8,7 +8,7 @@ local commands = {
 			 print("Run away!!!")
 		end,
 	move = function(fields)
-		if #fields ~= 2 then
+		if #fields ~= 2 or fields[2] == 'help' then
 			print('Usage: move location')
 		elseif world[fields[2]] == nil then
 			print('Error: '..fields[2]..' not a valid location')
@@ -36,6 +36,8 @@ local commands = {
 repeat
 	-- print the player a sort of prompt
 	player.location:describe()
+	-- print prompt to screen
+	io.write('>>> ')
 	-- get player input
 	line = io.read("*line") 
 	-- get args from line
