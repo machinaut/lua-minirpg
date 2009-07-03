@@ -11,3 +11,6 @@ money = 1000
 
 -- where you're at
 location = world['shop']
+
+-- virility
+health = 100

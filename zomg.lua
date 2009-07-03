@@ -1,12 +1,6 @@
 require 'player'
 
 local commands = {
-	attack = function(weapon, monster)
-			print("attack")
-		end,
-	flee = function()
-			 print("Run away!!!")
-		end,
 	move = function(fields)
 		if #fields ~= 2 or fields[2] == 'help' then
 			print('Usage: move location')
@@ -37,7 +31,7 @@ repeat
 	-- print the player a sort of prompt
 	player.location:describe()
 	-- print prompt to screen
-	io.write('>>> ')
+	io.write("(>'.')> ")
 	-- get player input
 	line = io.read("*line") 
 	-- get args from line
@@ -54,6 +48,6 @@ repeat
 		player.location[fields[1]](fields)
 	-- bad command
 	else
-		print('Error: not a valid command.')
+		print('Error: not a valid command here.')
 	end
 until false

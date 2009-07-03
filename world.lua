@@ -62,22 +62,64 @@ shop.sell = function(fields)
 	end
 end
 
+----------------------------------------------------------------------------
+-- Combat Zones --
+----------------------------------------------------------------------------
+combat = world:clone()
+combat.name = 'Combat Zone'
+combat.enemy = monsters.opponent
+combat.describe = function()
+	print('You are at the '..player.location.name..'.')
+	print('There is a '..player.location.enemy.name..' here.')
+end
+combat.attack = function(fields)
+	if #fields ~= 1 or fields[2] == 'help' then
+		print('Usage: attack')
+		return
+	elseif player.location.enemy == nil then
+		print("There's no one here to attack.")
+		return
+	else
+		print("Attacking "..player.location.enemy.name.." ...")
+		return
+	end
+end
+combat.flee = function(fields)
+	if #fields ~= 1 or fields[2] == 'help' then
+		print('Usage: flee')
+		return
+	else
+		print('Fleeing to home ...')
+		player.location = home
+	end
+end
+
 -- the woods
-forest = world:clone()
+forest = combat:clone()
 forest.name = 'Forest'
+forest.enemy = monsters.swallow
 
 -- the mountains
-mountain = world:clone()
+mountain = combat:clone()
 mountain.name = 'Mountains'
+mountain.enemy = monsters.mole
 
 -- the lake
-lake = world:clone()
+lake = combat:clone()
 lake.name = 'Lake'
+lake.enemy = monsters.zombie
 
 -- the beach
-beach = world:clone()
+beach = combat:clone()
 beach.name = 'Beach'
+beach.enemy = monsters.seagull
 
 -- the graveyard
-graveyard = world:clone()
+graveyard = combat:clone()
 graveyard.name = 'Graveyard'
+graveyard.enemy = monsters.zombie
+
+-- the arena
+arena = combat:clone()
+arena.name = 'Arena'
+arena.enemy = monsters.opponenet
