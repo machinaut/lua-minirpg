@@ -1,5 +1,7 @@
+module(..., package.seeall);
+
 -- general weapon prototype
-weapon = object:clone()
+weapon = clone.object:clone()
 weapon.cost = 100
 
 -- over-arching types
