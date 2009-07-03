@@ -1,4 +1,5 @@
 module(..., package.seeall);
+require 'clone'
 
 -- general weapon prototype
 weapon = clone.object:clone()
