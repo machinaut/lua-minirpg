@@ -24,4 +24,4 @@ function isa( clone_object, base_object )
   return _isa
 end
 
-
+object = clone( table, { clone = clone, isa = isa } )
