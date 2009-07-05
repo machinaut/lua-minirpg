@@ -21,16 +21,16 @@ world.move = function(fields)
 		print("Moving to "..fields[2].."...")
 		player.location = world[fields[2]]
 	end
-end,
+end
 world.drop = function(thing)
 	print("Dropping " .. thing)
-end,
+end
 world.equip = function(thing)
 	print("Equipping" .. thing)
-end,
+end
 world.whereami = function()
 	print('I am at the '..player.location.name..'.')
-end,
+end
 world.help = function(fields)
 	print("Help with what?")
 end
