@@ -29,7 +29,7 @@ world.equip = function(fields)
 	print("Equipping" .. fields[2])
 end
 world.whereami = function(fields)
-	print('I am at the '..player.location.name..'.')
+	print('I am at the ' .. player.location.name .. '.')
 end
 world.help = function(fields)
 	print("Help with what?")
@@ -48,6 +48,70 @@ shop.describe = function()
 	print('You are at the Shop.')
 	print('You have ' .. player.money .. ' monies.')
 end
+
+shop.act = function(fields) 
+	command = shop.commands[fields[1]]
+	args = command[1]
+	fields[1] = nil
+	
+	if command == nil then
+		print('Error: invalid action')
+		return
+	elseif #args ~= #fields then
+		print("Usage: " .. command.usage)
+		return
+	elseif #args ~= 0 then
+		for num, check in ipairs(args) do
+			if check[fields[num+1]] ~= nil then
+				print(fields[num+1] .. command[2][num])
+				return
+			end
+		end
+		
+		-- Execute command --
+		return command[3](fields)
+	else:
+		return command[3]()
+	end
+end
+
+shop.commands = {
+	buy = { usage = 'buy itemname',
+			-- Arguments --
+			{shop.inventory}, 
+			-- Error Messages --
+			{' cannot be bought at this shop.'},
+			-- Command -- 
+			function(args) 
+				local itemname = args[1]
+				local item = weapons[itemname]
+				
+				if player.money < item.cost then
+					print('Error: Not enough money for ' .. itemname .. '.')
+					return
+				else
+					print('Buying ' .. itemname .. '...')
+					player.money = player.money - item.cost
+					player.inventory[item] = item
+					return
+				end
+			end}, 
+	sell = { usage = 'sell itemname',
+			-- Arguments --
+			{player.inventory},
+			-- Error Messages --
+			{' is not in your inventory.'},
+			-- Command -- 
+			function(args)
+				local itemname = args[1]
+				local item = weapons[itemname]
+				
+				print('Selling ' .. itemname .. '...')
+				player.money = player.money + item.cost*.80
+				player.inventory[item] = nil
+				return
+			end}
+}
 
 shop.buy = function(fields)
 	local itemname = fields[2]
