@@ -5,34 +5,40 @@ require 'monsters'
 
 world = clone.object:clone()
 function world:describe()
-	print('You are at the '..self.name..'.')
+	print('You are at the ' .. self.name .. '.')
 end
 world.flee = function(fields)
 	player.location = home
 end
 
--- your home
+----------------------------------------------------------------------------
+-- Safe Zones --
+----------------------------------------------------------------------------
+
 home = world:clone()
 home.name = 'Home'
 
--- the store
 shop = world:clone()
 shop.name = 'Shop'
 shop.describe = function()
 	print('You are at the Shop.')
-	print('You have '..player.money..' monies.')
+	print('You have ' .. player.money .. ' monies.')
 end
+
 shop.buy = function(fields)
+	local itemname = fields[2]
+	local item = weapons[itemname]
+	
 	if #fields ~= 2 or fields[2] == 'help' then
 		print('Usage: buy itemname')
 		return
 	end
-	local itemname = fields[2]
+	
 	if weapons[itemname] == nil then
 		print('Error: ' .. itemname .. ' not a valid weapon name.')
 		return
 	end
-	local item = weapons[itemname]
+	
 	if player.inventory[item] ~= nil then
 		print('Error: You already have that item.')
 		return
@@ -46,17 +52,21 @@ shop.buy = function(fields)
 		return
 	end
 end
+
 shop.sell = function(fields)
+	local itemname = fields[2]
+	local item = weapons[itemname]
+	
 	if #fields ~= 2 or fields[2] == 'help' then
 		print('Usage: sell itemname')
 		return
 	end
-	local itemname = fields[2]
+	
 	if weapons[itemname] == nil then
 		print('Error: ' .. itemname .. ' not a valid weapon name.')
 		return
 	end
-	local item = weapons[itemname]
+	
 	if player.inventory[item] == nil then
 		print('Error: You dont have that in your inventory.')
 		return
@@ -70,13 +80,20 @@ end
 ----------------------------------------------------------------------------
 -- Combat Zones --
 ----------------------------------------------------------------------------
+
+-- Generic Combat Zone -----------------------------------------------------
+
 combat = world:clone()
 combat.name = 'Combat Zone'
 combat.enemy = monsters.opponent
+
+-- Combat Commands --
+
 combat.describe = function()
-	print('You are at the '..player.location.name..'.')
-	print('There is a '..player.location.enemy.name..' here.')
+	print('You are at the ' .. player.location.name .. '.')
+	print('There is a ' .. player.location.enemy.name .. ' here.')
 end
+
 combat.attack = function(fields)
 	if #fields ~= 1 or fields[2] == 'help' then
 		print('Usage: attack')
@@ -85,10 +102,11 @@ combat.attack = function(fields)
 		print("There's no one here to attack.")
 		return
 	else
-		print("Attacking "..player.location.enemy.name.." ...")
+		print("Attacking " .. player.location.enemy.name .. " ...")
 		return
 	end
 end
+
 combat.flee = function(fields)
 	if #fields ~= 1 or fields[2] == 'help' then
 		print('Usage: flee')
@@ -99,32 +117,34 @@ combat.flee = function(fields)
 	end
 end
 
--- the woods
+-- Specific Combat Zones ---------------------------------------------------
+
+-- The Woods
 forest = combat:clone()
 forest.name = 'Forest'
 forest.enemy = monsters.swallow
 
--- the mountains
+-- The Mountains
 mountain = combat:clone()
 mountain.name = 'Mountains'
 mountain.enemy = monsters.mole
 
--- the lake
+-- The Lake
 lake = combat:clone()
 lake.name = 'Lake'
 lake.enemy = monsters.zombie
 
--- the beach
+-- The Beach
 beach = combat:clone()
 beach.name = 'Beach'
 beach.enemy = monsters.seagull
 
--- the graveyard
+-- The Graveyard
 graveyard = combat:clone()
 graveyard.name = 'Graveyard'
 graveyard.enemy = monsters.zombie
 
--- the arena
+-- The Arena
 arena = combat:clone()
 arena.name = 'Arena'
 arena.enemy = monsters.opponenet
