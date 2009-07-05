@@ -30,34 +30,36 @@ local commands = {
 repeat
 	-- print a newline so the player can see separate 'timesteps'
 	print('')
+	
 	-- print the player a sort of prompt
 	player.location:describe()
-	-- print prompt to screen
 	io.write("(>'.')> ")
+	
 	-- get player input
 	line = io.read("*line")
+	
 	-- exit if end-of-file (Ctrl+D)
 	if line == nil then
-		print('') -- last thing we printed was the prompt
+		print('')
 		break
 	end
+	
 	-- get args from line
 	local fields = {}
 	line:gsub("(%w+)",(function(w)table.insert(fields,w) end))
-	-- check for exit condition first
+	
 	if fields[1] == 'exit' then
 		break
-	-- catch the empty string case
 	elseif line == '' then
 		print('Please enter a command.')
-	-- general commands (any location)
 	elseif commands[fields[1]] ~= nil then
+		-- general commands (any location)
 		commands[fields[1]](fields)
-	-- location-specific commands
 	elseif player.location[fields[1]] ~= nil then
+		-- location-specific commands
 		player.location[fields[1]](fields)
-	-- bad command
 	else
+		-- bad command
 		print('Error: not a valid command here.')
 	end
 until false
