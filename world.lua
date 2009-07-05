@@ -10,6 +10,30 @@ end
 world.flee = function(fields)
 	player.location = home
 end
+world.move = function(fields)
+	if #fields ~= 2 or fields[2] == 'help' then
+		print('Usage: move location')
+	elseif world[fields[2]] == nil then
+		print('Error: '..fields[2]..' not a valid location')
+	elseif player.location == world[fields[2]] then
+		print("Error: You're already at "..fields[2]..".")
+	else
+		print("Moving to "..fields[2].."...")
+		player.location = world[fields[2]]
+	end
+end,
+world.drop = function(thing)
+	print("Dropping " .. thing)
+end,
+world.equip = function(thing)
+	print("Equipping" .. thing)
+end,
+world.whereami = function()
+	print('I am at the '..player.location.name..'.')
+end,
+world.help = function(fields)
+	print("Help with what?")
+end
 
 ----------------------------------------------------------------------------
 -- Safe Zones --
