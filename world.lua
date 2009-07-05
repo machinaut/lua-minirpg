@@ -25,7 +25,7 @@ end
 world.drop = function(fields)
 	print("Dropping " .. fields[2])
 end
-world.equip = function(fields[2])
+world.equip = function(fields)
 	print("Equipping" .. fields[2])
 end
 world.whereami = function(fields)
